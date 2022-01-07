@@ -1,0 +1,1 @@
+var cityEl = document.getElementById("city-name")
