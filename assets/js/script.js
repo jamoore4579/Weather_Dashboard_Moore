@@ -100,6 +100,7 @@ searchEl.addEventListener("click", function() {
     searchHistory.push(searchReq);
     localStorage.setItem("search", JSON.stringify(searchHistory));
     renderSearchHistory();
+    document.getElementById("city-name").value = "";
 })
     
 
@@ -107,7 +108,8 @@ clearEl.addEventListener("click", function () {
     localStorage.clear();
     searchHistory = [];
     renderSearchHistory();
-    
+    document.getElementById("current-weather").remove();
+    document.getElementById("five-forecast").remove();
 })
 
 
