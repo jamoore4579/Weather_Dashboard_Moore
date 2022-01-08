@@ -10,6 +10,7 @@ var currentWindEl = document.getElementById("wind")
 var currentHumidity = document.getElementById("humidity")
 var currentIndexEl = document.getElementById("UV-index")
 var fivedayEL = document.getElementById("fiveday")
+var searchHistory = JSON.parse(localStorage.getItem("search")) || [];
 var APIKey = "4a543088943e858a5b17eaec992c251f"
 
 function getWeather(citySearch) {
@@ -96,7 +97,18 @@ function getWeather(citySearch) {
 searchEl.addEventListener("click", function() {
     var searchReq = cityNameEl.value;
     getWeather(searchReq);
+    searchHistory.push(searchReq);
+    localStorage.setItem("search", JSON.stringify(searchHistory));
+    renderSearchHistory();
 })
+    
+
+clearEl.addEventListener("click", function () {
+    localStorage.clear();
+    searchHistory = [];
+    renderSearchHistory();
+})
+
 
 function k2f(K) {
     return Math.floor((K - 273.15) * 1.8 + 32);
