@@ -63,9 +63,9 @@ function getWeather(citySearch) {
                     fivedayEL.classList.remove("d-none");
 
                     var fiveForecastEl = document.querySelectorAll(".forecast")
-                    for (i =0; i< fiveForecastEl.length; i++) {
+                    for (i = 0; i < fiveForecastEl.length; i++) {
                         fiveForecastEl[i].innerHTML = "";
-                        var forecastIndex = i * 8 +4;
+                        var forecastIndex = i * 8 + 4;
                         var forecastDate = new Date(response.data.list[forecastIndex].dt * 1000);
                         var forecastDay = forecastDate.getDate();
                         var forecastMonth = forecastDate.getMonth() + 1;
@@ -82,9 +82,12 @@ function getWeather(citySearch) {
                         var forecastTempEl = document.createElement("p");
                         forecastTempEl.innerHTML = "Temp: " + k2f(response.data.list[forecastIndex].main.temp) + " &#176F";
                         fiveForecastEl[i].append(forecastTempEl);
+                        var forecastWindEl = document.createElement("p")
+                        forecastWindEl.innerHTML = "Wind: " + response.data.list[forecastIndex].wind.speed + " MPH";
+                        fiveForecastEl[i].append(forecastWindEl);
                         var forecastHumidityEl = document.createElement("p");
                         forecastHumidityEl.innerHTML = "Humidity: " + response.data.list[forecastIndex].main.humidity + "%";
-                        fiveDayForecastEl[i].append(forecastHumidityEl);
+                        fiveForecastEl[i].append(forecastHumidityEl);
                     }
                 })
         });
