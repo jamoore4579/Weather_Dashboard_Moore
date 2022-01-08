@@ -107,9 +107,30 @@ clearEl.addEventListener("click", function () {
     localStorage.clear();
     searchHistory = [];
     renderSearchHistory();
+    
 })
 
 
 function k2f(K) {
     return Math.floor((K - 273.15) * 1.8 + 32);
+}
+
+function renderSearchHistory() {
+    historyEl.innerHTML = "";
+    for (let i = 0; i < searchHistory.length; i++) {
+        var historyReq = document.createElement("input");
+        historyReq.setAttribute("type", "text");
+        historyReq.setAttribute("readonly", true);
+        historyReq.setAttribute("class", "form-control d-block bg-white");
+        historyReq.setAttribute("value", searchHistory[i]);
+        historyReq.addEventListener("click", function () {
+            getWeather(historyReq.value);
+        })
+        historyEl.append(historyReq);
+    }
+}
+
+renderSearchHistory();
+if (searchHistory.length > 0) {
+    getWeather(searchHistory[searchHistory.length - 1]);
 }
