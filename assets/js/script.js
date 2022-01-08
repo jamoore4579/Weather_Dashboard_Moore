@@ -32,24 +32,24 @@ function getWeather(citySearch) {
             console.log(currentTempEl)
             currentWindEl.innerHTML = "Wind: " + response.data.wind.speed + " MPH";
             console.log(currentWindEl)
-            currentHumidity.innerHTML = "Humidity: " +response.data.main.humidity + "%";
+            currentHumidity.innerHTML = "Humidity: " + response.data.main.humidity + "%";
             console.log(currentHumidity)
 
             var lat = response.data.coord.lat;
             var lon = response.data.coord.lon;
             var indexQueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey + "&cnt=1";
             axios.get(indexQueryURL)
-                .then(function(response) {
+                .then(function (response) {
                     var indexEl = document.createElement("span");
 
                     if (response.data[0].value < 4 ) {
-                        indexEl.setAttribute("class", "badge badge-success");
+                        indexEl.setAttribute("class", "badge bg-success");
                     }
                     else if (response.data[0].value < 8) {
-                        indexEl.setAttribute("class", "badge badge-warning");
+                        indexEl.setAttribute("class", "badge bg-warning");
                     }
                     else {
-                        indexEl.setAttribute("class", "badge badge-danger");
+                        indexEl.setAttribute("class", "badge bg-danger");
                     }
                     console.log(response.data[0].value)
                     indexEl.innerHTML = response.data[0].value;
@@ -108,8 +108,8 @@ clearEl.addEventListener("click", function () {
     localStorage.clear();
     searchHistory = [];
     renderSearchHistory();
-    document.getElementById("current-weather").remove();
-    document.getElementById("five-forecast").remove();
+    //document.getElementById("current-weather").remove();
+    //document.getElementById("five-forecast").remove();
 })
 
 
@@ -123,7 +123,7 @@ function renderSearchHistory() {
         var historyReq = document.createElement("input");
         historyReq.setAttribute("type", "text");
         historyReq.setAttribute("readonly", true);
-        historyReq.setAttribute("class", "form-control d-block bg-white");
+        historyReq.setAttribute("class", "form-control d-block bg-white mb-1");
         historyReq.setAttribute("value", searchHistory[i]);
         historyReq.addEventListener("click", function () {
             getWeather(historyReq.value);
@@ -136,3 +136,4 @@ renderSearchHistory();
 if (searchHistory.length > 0) {
     getWeather(searchHistory[searchHistory.length - 1]);
 }
+
