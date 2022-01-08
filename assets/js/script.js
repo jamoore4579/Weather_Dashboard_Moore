@@ -9,7 +9,8 @@ var currentTempEl = document.getElementById("tempature")
 var currentWindEl = document.getElementById("wind")
 var currentHumidity = document.getElementById("humidity")
 var currentIndexEl = document.getElementById("UV-index")
-var APIKey = "4a543088943e858a5b17eaec992c251f";
+var fivedayEL = document.getElementById("fiveday")
+var APIKey = "4a543088943e858a5b17eaec992c251f"
 
 function getWeather(citySearch) {
     let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=" + APIKey;
@@ -54,7 +55,39 @@ function getWeather(citySearch) {
                     currentIndexEl.innerHTML = "UV Index: ";
                     currentIndexEl.append(indexEl);
                 });
-        })
+
+            var cityID = response.data.id;
+            var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=" + APIKey;
+            axios.get(forecastURL)
+                .then(function (response) {
+                    fivedayEL.classList.remove("d-none");
+
+                    var fiveForecastEl = document.querySelectorAll(".forecast")
+                    for (i =0; i< fiveForecastEl.length; i++) {
+                        fiveForecastEl[i].innerHTML = "";
+                        var forecastIndex = i * 8 +4;
+                        var forecastDate = new Date(response.data.list[forecastIndex].dt * 1000);
+                        var forecastDay = forecastDate.getDate();
+                        var forecastMonth = forecastDate.getMonth() + 1;
+                        var forecastYear = forecastDate.getFullYear();
+                        var forecastDateEl = document.createElement("p");
+                        forecastDateEl.setAttribute("class", "mt-3 mb-0 forecast-date");
+                        forecastDateEl.innerHTML = forecastMonth + "/" + forecastDay + "/" + forecastYear;
+                        fiveForecastEl[i].append(forecastDateEl);
+
+                        var fiveDayForecastEl = document.createElement("img");
+                        fiveDayForecastEl.setAttribute("src", "https://openweathermap.org/img/wn/" + response.data.list[forecastIndex].weather[0].icon + "@2x.png");
+                        fiveDayForecastEl.setAttribute("alt", response.data.list[forecastIndex].weather[0].description);
+                        fiveForecastEl[i].append(fiveDayForecastEl);
+                        var forecastTempEl = document.createElement("p");
+                        forecastTempEl.innerHTML = "Temp: " + k2f(response.data.list[forecastIndex].main.temp) + " &#176F";
+                        fiveForecastEl[i].append(forecastTempEl);
+                        var forecastHumidityEl = document.createElement("p");
+                        forecastHumidityEl.innerHTML = "Humidity: " + response.data.list[forecastIndex].main.humidity + "%";
+                        fiveDayForecastEl[i].append(forecastHumidityEl);
+                    }
+                })
+        });
 }
 
 searchEl.addEventListener("click", function() {
