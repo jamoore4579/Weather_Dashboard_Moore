@@ -72,7 +72,7 @@ function getWeather(citySearch) {
                         var forecastMonth = forecastDate.getMonth() + 1;
                         var forecastYear = forecastDate.getFullYear();
                         var forecastDateEl = document.createElement("p");
-                        forecastDateEl.setAttribute("class", "mt-3 mb-0 forecast-date");
+                        forecastDateEl.setAttribute("class", "mt-3 mb-0 forecast-date ");
                         forecastDateEl.innerHTML = forecastMonth + "/" + forecastDay + "/" + forecastYear;
                         fiveForecastEl[i].append(forecastDateEl);
 
@@ -100,7 +100,7 @@ searchEl.addEventListener("click", function() {
     searchHistory.push(searchReq);
     localStorage.setItem("search", JSON.stringify(searchHistory));
     renderSearchHistory();
-    document.getElementById("city-name").value = "";
+    //document.getElementById("city-name").value = "";
 })
     
 
@@ -117,15 +117,19 @@ function k2f(K) {
     return Math.floor((K - 273.15) * 1.8 + 32);
 }
 
+console.log(searchHistory)
+
+
 function renderSearchHistory() {
     historyEl.innerHTML = "";
     for (let i = 0; i < searchHistory.length; i++) {
-        var historyReq = document.createElement("input");
+        const historyReq = document.createElement("input");
         historyReq.setAttribute("type", "text");
         historyReq.setAttribute("readonly", true);
         historyReq.setAttribute("class", "form-control d-block bg-white mb-1");
         historyReq.setAttribute("value", searchHistory[i]);
         historyReq.addEventListener("click", function () {
+            console.log(historyReq.value)
             getWeather(historyReq.value);
         })
         historyEl.append(historyReq);
@@ -136,4 +140,6 @@ renderSearchHistory();
 if (searchHistory.length > 0) {
     getWeather(searchHistory[searchHistory.length - 1]);
 }
+
+
 
