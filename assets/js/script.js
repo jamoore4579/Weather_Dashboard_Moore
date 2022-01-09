@@ -1,6 +1,7 @@
 var cityNameEl = document.getElementById("city-name")
 var searchEl = document.getElementById("search-button")
 var clearEl = document.getElementById("clear-search")
+var clearDisplayEl = document.getElementById("clear-search")
 var historyEl = document.getElementById("search-history")
 var currentWeatherEl = document.getElementById("current-weather")
 var currentForecastEl = document.getElementById("current-forecast")
@@ -95,30 +96,18 @@ function getWeather(citySearch) {
 }
 
 searchEl.addEventListener("click", function() {
-    var searchReq = cityNameEl.value;
+    const searchReq = cityNameEl.value;
     getWeather(searchReq);
     searchHistory.push(searchReq);
     localStorage.setItem("search", JSON.stringify(searchHistory));
     renderSearchHistory();
-    //document.getElementById("city-name").value = "";
-})
-    
-
-clearEl.addEventListener("click", function () {
-    localStorage.clear();
-    searchHistory = [];
-    renderSearchHistory();
-    //document.getElementById("current-weather").remove();
-    //document.getElementById("five-forecast").remove();
+    document.getElementById("city-name").value = "";
 })
 
 
 function k2f(K) {
     return Math.floor((K - 273.15) * 1.8 + 32);
 }
-
-console.log(searchHistory)
-
 
 function renderSearchHistory() {
     historyEl.innerHTML = "";
@@ -141,5 +130,10 @@ if (searchHistory.length > 0) {
     getWeather(searchHistory[searchHistory.length - 1]);
 }
 
+clearEl.addEventListener("click", function () {
+    localStorage.clear();
+    searchHistory = [];
+    renderSearchHistory();
+})
 
 
