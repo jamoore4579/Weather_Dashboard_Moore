@@ -104,7 +104,6 @@ searchEl.addEventListener("click", function() {
     document.getElementById("city-name").value = "";
 })
 
-
 function k2f(K) {
     return Math.floor((K - 273.15) * 1.8 + 32);
 }
