@@ -14,6 +14,18 @@ var fivedayEL = document.getElementById("fiveday")
 var searchHistory = JSON.parse(localStorage.getItem("search")) || [];
 var APIKey = "4a543088943e858a5b17eaec992c251f"
 
+searchEl.addEventListener("click", function() {
+    const searchReq = cityNameEl.value;
+    getWeather(searchReq);
+    if(searchReq === ''){
+        return null;
+    }
+    searchHistory.push(searchReq);
+    localStorage.setItem("search", JSON.stringify(searchHistory));
+    renderSearchHistory();
+    document.getElementById("city-name").value = "";
+})
+
 function getWeather(citySearch) {
     let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=" + APIKey;
     axios.get(queryUrl)
@@ -94,15 +106,6 @@ function getWeather(citySearch) {
                 })
         });
 }
-
-searchEl.addEventListener("click", function() {
-    const searchReq = cityNameEl.value;
-    getWeather(searchReq);
-    searchHistory.push(searchReq);
-    localStorage.setItem("search", JSON.stringify(searchHistory));
-    renderSearchHistory();
-    document.getElementById("city-name").value = "";
-})
 
 function k2f(K) {
     return Math.floor((K - 273.15) * 1.8 + 32);
